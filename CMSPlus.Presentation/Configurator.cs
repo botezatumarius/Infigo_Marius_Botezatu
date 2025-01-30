@@ -1,4 +1,5 @@
 using CMSPlus.Domain.Models.TopicModels;
+using CMSPlus.Domain.Models.CommentModels;
 using CMSPlus.Domain.Persistance;
 using CMSPlus.Presentation.AutoMapperProfiles;
 using CMSPlus.Presentation.Validations;
@@ -13,6 +14,7 @@ public static class Configurator
     {
         services.AddRazorPages().AddRazorRuntimeCompilation();
         services.AddScoped<TopicValidatorHelpers>();
+        services.AddScoped<IValidator<CommentCreateModel>, CommentCreateModelValidator>();
         services.AddScoped<IValidator<TopicCreateModel>, TopicCreateModelValidator>();
         services.AddScoped<IValidator<TopicEditModel>, TopicEditModelValidator>();
         services.AddControllersWithViews();

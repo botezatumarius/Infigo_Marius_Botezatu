@@ -5,6 +5,7 @@ using CMSPlus.Domain.Models.TopicModels;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+using CMSPlus.Domain.Models.CommentModels;
 
 namespace CMSPlus.Presentation.Controllers;
 
@@ -105,7 +106,16 @@ public class TopicController : Controller
         {
             throw new ArgumentException($"Item with system name: {systemName} wasn't found!");
         }
-        var topicDto = _mapper.Map<TopicEntity, TopicDetailsModel>(topic);
+
+        var topicWithComments = await _topicService.GetTopicWithComments(topic.Id);
+
+        var topicDto = _mapper.Map<TopicEntity, TopicDetailsModel>(topicWithComments);
+        topicDto.Comments = topicWithComments.Comments?
+            .Select(c => _mapper.Map<CommentModel>(c))
+            .ToList() ?? new List<CommentModel>();
+
         return View(topicDto);
     }
+
+
 }

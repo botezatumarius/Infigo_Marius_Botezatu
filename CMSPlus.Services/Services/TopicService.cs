@@ -42,4 +42,9 @@ public class TopicService:ITopicService
     {
         await _repository.Delete(id);
     }
+
+    public async Task<TopicEntity?> GetTopicWithComments(int topicId)
+    {
+        return await _repository.GetTopicWithComments(topicId); 
+    }
 }
